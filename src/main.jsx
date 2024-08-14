@@ -5,9 +5,13 @@ import "bootstrap/dist/js/bootstrap.bundle.js";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import routes from "./router/index.jsx";
+import { Provider } from "react-redux";
+import store from "./app/store.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={routes} />
+    <Provider store={store}>
+      <RouterProvider router={routes} />
+    </Provider>
   </StrictMode>
 );

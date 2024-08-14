@@ -3,6 +3,7 @@ import { FaRegHeart, FaShoppingCart } from "react-icons/fa";
 import { GrSearch } from "react-icons/gr";
 
 import { Link, NavLink } from "react-router-dom";
+import ProfileDropdown from "../../features/user/ProfileDropdown";
 
 const Header = () => {
   return (
@@ -70,11 +71,8 @@ const Header = () => {
                 />
               </form>
             </div>
-            <div className="d-flex col-md-3 col-3 justify-content-between align-items-center">
-              <Link className="btn btn-pink fw-semibold" to="/login">
-                Login
-              </Link>
-
+            <div className="d-flex col-md-3 col-3 justify-content-around align-items-center">
+              <ProfileDropdown />
               <Link
                 className="text-dark position-relative"
                 style={{ paddingLeft: "20px", paddingRight: "20px" }}

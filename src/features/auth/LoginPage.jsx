@@ -1,8 +1,10 @@
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import loginIcon from "../../assets/signin.gif";
 import "./auth.css";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { resetState, signinAsync } from "./authSlice";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -10,6 +12,17 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { message, isSuccess, isError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isSuccess) {
+      navigate("/");
+    }
+
+    dispatch(resetState());
+  }, [isSuccess, isError, message, dispatch, navigate]);
 
   const changeHandler = (event) => {
     const { name, value } = event.target;
@@ -21,13 +34,20 @@ const LoginPage = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
+    dispatch(signinAsync(formData));
   };
 
   return (
     <section id="login">
       <div className="bg-white px-2 py-4 w-50 mx-auto">
         <div className="d-flex justify-content-center align-items-center">
-          <img src={loginIcon} alt="Login Icon" width="100px" height="100px" />
+          <img
+            src={loginIcon}
+            className="rounded-circle"
+            alt="Login Icon"
+            width="100px"
+            height="100px"
+          />
         </div>
         <form onSubmit={submitHandler}>
           <div className="mb-3">
@@ -39,6 +59,8 @@ const LoginPage = () => {
               placeholder="Enter email"
               value={formData.email}
               onChange={changeHandler}
+              autoComplete="username"
+              required
             />
           </div>
           <div className="mb-3 position-relative">
@@ -51,6 +73,8 @@ const LoginPage = () => {
                 placeholder="Enter password"
                 value={formData.password}
                 onChange={changeHandler}
+                autoComplete="current-password"
+                required
               />
               <div
                 className="hidePasswordBtn fs-5"
@@ -68,7 +92,7 @@ const LoginPage = () => {
           </button>
         </form>
         <p>
-          Don't have account ? <Link to={"/sign-up"}>Sign Up</Link>
+          Don&apos;t have account ? <Link to={"/sign-up"}>Sign Up</Link>
         </p>
       </div>
     </section>
